@@ -2,8 +2,10 @@ require 'open-uri'
 
 class ProductInfoController < ApplicationController
   def index
-    amazon_url = Adapter::Amazon.new("Fashion", "corderoy pants")
+    binding.pry
+    amazon_url = Adapter::Amazon.new(params[:category], params[:keywords])
     response =  Nokogiri::XML(open(amazon_url.signed_url))
     parsed_response = ParseData.new(response).values
+    render json: parsed_response
   end
 end
