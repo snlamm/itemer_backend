@@ -13,6 +13,7 @@ class ParseData
     product_names
     urls
     prices
+    images
   end
 
   def product_names
@@ -28,5 +29,12 @@ class ParseData
   def prices
     parsed_response = data.css("Price FormattedPrice").collect {|x| x.children.text}
     self.values["prices"] = parsed_response
+  end
+
+  def images
+    parsed_response = data.css("Item").collect do |x|
+      x.css("MediumImage").css("URL").children.first.text
+    end
+    self.values["images"] = parsed_response
   end
 end
